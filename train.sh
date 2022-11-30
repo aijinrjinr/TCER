@@ -1,0 +1,1 @@
+python train_genoMap.py --dataset 'CellularTax' --rate '10-2000' --epochs 50

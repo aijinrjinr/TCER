@@ -1,0 +1,1 @@
+python test_genoMap.py --dataset 'CellularTax' --rate '10-2000' --epoch_suffix 50
