@@ -51,10 +51,10 @@ class DehazeBlock_dcn(nn.Module):
     def __init__(self, conv, dim, kernel_size, ):
         super(DehazeBlock_dcn, self).__init__()
         self.conv1 = conv(dim, dim, kernel_size, bias=True)
-        # self.conv1 = DCN(dim, dim, kernel_size=kernel_size, stride=1, padding=1)  #
+        
         self.act1 = nn.ReLU(inplace=True)
         self.conv2 = conv(dim, dim, kernel_size, bias=True)
-        self.conv3 = DCN(dim, dim, kernel_size=kernel_size, stride=1, padding=1)#DCNBlock(dim, dim)
+        self.conv3 = DCN(dim, dim, kernel_size=kernel_size, stride=1, padding=1)
         self.calayer = CALayer(dim)
         self.palayer = PALayer(dim)
 
@@ -86,7 +86,7 @@ class GMImpute(nn.Module):
                                    nn.ReLU(True))
 
         ###### DFA blocks
-        self.block_0 = DehazeBlock_dcn(default_conv, ngf * 4, 3)#
+        self.block_0 = DehazeBlock_dcn(default_conv, ngf * 4, 3)
         self.block_1 = DehazeBlock_dcn(default_conv, ngf * 4, 3)
         self.block_2 = DehazeBlock_dcn(default_conv, ngf * 4, 3)
 
@@ -94,11 +94,10 @@ class GMImpute(nn.Module):
         ###### upsample
         self.up1 = nn.Sequential(nn.ConvTranspose2d(ngf*8, ngf*2, kernel_size=3, stride=2, padding=1, output_padding=1),
                                  nn.ReLU(True))
-        self.up2 = nn.Sequential(nn.ConvTranspose2d(ngf*4, ngf, kernel_size=3, stride=2, padding=1, output_padding=1),#)
+        self.up2 = nn.Sequential(nn.ConvTranspose2d(ngf*4, ngf, kernel_size=3, stride=2, padding=1, output_padding=1)
                                  nn.ReLU(True))
         self.up3 = nn.Sequential(nn.ReflectionPad2d(3),
-                                 nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0),
-                                 # nn.Sigmoid())
+                                 nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0),  
                                  nn.Tanh())
 
 
@@ -106,8 +105,8 @@ class GMImpute(nn.Module):
         self.deconv = FastDeconv(1, 1, kernel_size=3, stride=1, padding=1)
 
 
-        self.fusion1 = CBAM(256 * 2)#FeaAtt(default_conv, 256 * 2, 3)#CBAM(256 * 2)
-        self.fusion2 = CBAM(128 * 2)#FeaAtt(default_conv, 128 * 2, 3)#CBAM(128 * 2)
+        self.fusion1 = CBAM(256 * 2)
+        self.fusion2 = CBAM(128 * 2)
 
 
 
@@ -115,9 +114,9 @@ class GMImpute(nn.Module):
 
         x_deconv = self.deconv(input) # preprocess
 
-        x_down1 = self.down1(x_deconv) # [bs, 64, 256, 256]
-        x_down2 = self.down2(x_down1) # [bs, 128, 128, 128]
-        x_down3 = self.down3(x_down2) # [bs, 256, 64, 64]
+        x_down1 = self.down1(x_deconv) 
+        x_down2 = self.down2(x_down1) 
+        x_down3 = self.down3(x_down2) 
 
 
 
@@ -128,15 +127,15 @@ class GMImpute(nn.Module):
         x3 = self.block_2(x2)
 
 
-        x_out_mix = torch.cat([x3, x_down3], dim=1)#self.mix1(x_down3, x_dcn2)
+        x_out_mix = torch.cat([x3, x_down3], dim=1)
         x_out_mix = self.fusion1(x_out_mix)
-        x_up1 = self.up1(x_out_mix) # [bs, 128, 128, 128]
+        x_up1 = self.up1(x_out_mix) 
 
         x_up1_mix = torch.cat([x_up1, x_down2], dim=1)
         x_up1_mix = self.fusion2(x_up1_mix)
-        x_up2 = self.up2(x_up1_mix) # [bs, 64, 256, 256]
+        x_up2 = self.up2(x_up1_mix) 
 
-        out = self.up3(x_up2) # [bs,  3, 256, 256]
+        out = self.up3(x_up2) 
 
         return out
 
