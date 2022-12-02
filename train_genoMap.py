@@ -6,7 +6,7 @@ from torch import optim
 from option import opt
 
 from scipy.stats import pearsonr
-from models.GMImpute import *
+from models.ERNet import *
 
 from dataset import Dataset_geno
 from torch.utils.data import DataLoader
@@ -236,7 +236,7 @@ if __name__ == "__main__":
 	eval_dataloader = DataLoader(Dataset_geno(opt.eval_data_root, opt.target_size, opt.ori_size, dataset='genoMap', mask_reverse=True,  training=False, creat_mask=False, reverse=True, assi=0.999, lowerb=0., ratio=opt.Hratio, Lratio=opt.Lratio), batch_size=opt.batch_size, shuffle=False, num_workers=opt.n_threads)
 
 
-	net = GMImpute(1, 1)
+	net = ERNet(1, 1)
 	# net.load_state_dict(
 	# 	torch.load('/home/wei/GMImpute/trained_models/CellularTax_GMImpute_10-2000_epoch50.pth', 'cpu')['model'])
 

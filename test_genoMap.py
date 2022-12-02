@@ -9,7 +9,7 @@ from option import opt
 
 from scipy.stats import pearsonr
 
-from models.GMImpute import *
+from models.ERNet import *
 
 
 from dataset import Dataset_geno
@@ -114,7 +114,6 @@ if __name__ == "__main__":
 	opt.model_path = './trained_models/' + opt.dataset + '_' + opt.rate + '_GMImpute_pearson_coe_' + opt.epoch_suffix + '.pth'
 
 
-
 	opt.data_root = './data/' + opt.dataset + '_' + 'dataSAVER' + opt.rate + '.mat'
 	opt.eval_data_root = './data/' + opt.dataset + '_' + 'dataSAVER' + opt.rate + '.mat'
 
@@ -138,7 +137,7 @@ if __name__ == "__main__":
 		print("Invalid checkpoint!")
 		exit()
 
-	net = GMImpute(1, 1)
+	net = ERNet(1, 1)
 	net.load_state_dict(torch.load(opt.model_path, 'cpu')['model'])
 
 
