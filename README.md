@@ -1,5 +1,5 @@
 # Self-supervised deep learning of gene-gene interactions for improved gene expression recovery (TCER)
-
+TCER is a self-supervised deep learning framework for gene expression recovery. The pipeline consists of two steps, inluding (i) we reposition the genes in such a way that their spatial configuration reflects their interactive relationships; and (ii) we use a self-supervised 2D convolutional neural network (ER-Net) to extract the contextual features of the interactions from the spatially configured genes and impute the omitted values. Extensive experiments with both simulated and experimental scRNA-seq datasets are carried out to demonstrate superior performance of the proposed strategy against the existing imputation methods.
 
 # Paper
 ## Pipeline
@@ -10,7 +10,25 @@
 
 # Code
 ## Requirement
-
+```
+torch==1.6.0+cu101
+torchvision==0.7.0+cu101	
+json5==0.9.6
+matplotlib==3.4.3
+ninja==1.10.2.2
+pandas==1.3.3
+scipy==1.7.1
+seaborn==0.11.2
+umap-learn==0.5.3
+```
+Since our network includes deformable convolution, please use the following command to set up the required environment. 
+```
+cd ./models
+rm -r DCNv2
+unzip DCNv2.zip
+cd ./DCNv2
+sh ./make.sh         # build
+```
 ## Data
 Please refer to the following Google Drive link to download the cellular taxonomy dataset with 0.5% efficiency loss. Notice that the provided data has already been constructed into GenoMap from the raw data.
 
