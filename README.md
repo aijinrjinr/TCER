@@ -1,5 +1,5 @@
 # Self-supervised deep learning of gene-gene interactions for improved gene expression recovery (TCER)
-TCER is a self-supervised deep learning framework for gene expression recovery. The pipeline consists of two steps, inluding (i) we reposition the genes in such a way that their spatial configuration reflects their interactive relationships; and (ii) we use a self-supervised 2D convolutional neural network (ER-Net) to extract the contextual features of the interactions from the spatially configured genes and impute the omitted values. Extensive experiments with both simulated and experimental scRNA-seq datasets are carried out to demonstrate superior performance of the proposed strategy against the existing imputation methods.
+TCER is a self-supervised deep learning framework for gene expression recovery. The proposed pipeline consists of two steps, inluding (i) we first reposition the genes in such a way that their spatial configuration reflects their interactive relationships; and (ii) we then use a self-supervised 2D convolutional neural network (ER-Net) to extract the contextual features of the interactions from the spatially configured genes and impute the omitted values. 
 
 # Paper
 ## Pipeline
